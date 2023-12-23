@@ -19,13 +19,13 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1/projects")
-public class ProjectController {
+public class    ProjectController {
     private final ProjectService projectService;
 
 
     @Operation(summary = "Get All Projects ")
     @GetMapping()
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('Supervisor')")
     public List<Project> getProjects(){return projectService.getAllProjects();}
 
     @Operation(summary = "Get Project By Id")
@@ -39,7 +39,7 @@ public class ProjectController {
     @PreAuthorize("hasRole('Supervisor') OR hasRole('Student')")
     public List<Stage> getStagesProject(@PathVariable String projectId){return projectService.getStageByProject(projectId);}
 
-    @Operation(summary = "Get Stages by Project Id")
+    @Operation(summary = "Get Stages by Stage Id")
     @GetMapping(value ="/stages/{stagesId}")
     @PreAuthorize("hasRole('Supervisor') OR hasRole('Student')")
     public Stage getStage(@PathVariable String stageId){return projectService.getStage(stageId);}

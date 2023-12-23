@@ -40,6 +40,13 @@ public class SupervisorService {
         return supervisor;
     }
 
+    public Supervisor getSupervisorByName(String name) {
+        String URI = "http://"+environment.getProperty("ip.address")+":8080/api/v1/supervisors/"+name+"/name";
+        Supervisor supervisor =restTemplate.getForObject(URI,Supervisor.class);
+        return supervisor;
+    }
+
+
     public List<Supervisor> getAllSupervisors() {
         String URI = "http://"+environment.getProperty("ip.address")+":8080/api/v1/supervisors";
         ResponseEntity<List<Supervisor>> responseEntity = restTemplate.exchange(

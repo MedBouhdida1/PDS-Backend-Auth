@@ -30,13 +30,19 @@ public class SupervisorController {
     @PreAuthorize("hasRole('Supervisor')")
     public Supervisor getSupervisor(@PathVariable String Id){return supervisorService.getSupervisor(Id);}
 
+
+    @Operation(summary = "Get Supervisor By name")
+    @GetMapping(value ="/{name}/name")
+    @PreAuthorize("hasRole('Supervisor')")
+    public Supervisor getSupervisorByName(@PathVariable String name){return supervisorService.getSupervisorByName(name);}
+
     @Operation(summary = "Update Supervisor")
     @PutMapping(value = "/{supervisorId}")
     @PreAuthorize("hasRole('Supervisor')")
     public String updateSupervisor(@PathVariable String supervisorId,@RequestBody userDTO userDto){return supervisorService.updateSupervisor(supervisorId,userDto);}
 
     @Operation(summary = "Delete Supervisor By Name")
-    @DeleteMapping(value ="/{name}")
+    @DeleteMapping(value ="/{name}/name")
     @PreAuthorize("hasRole('Supervisor')")
     public String removeSupervisor(@PathVariable String name){return supervisorService.deleteSupervisor(name);}
 
