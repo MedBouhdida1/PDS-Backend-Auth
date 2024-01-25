@@ -35,6 +35,13 @@ public class StudentService {
         return student;
     }
 
+    public Student getStudentByName(String name) {
+        String URI = "http://"+environment.getProperty("ip.address")+":8080/api/v1/students/"+name+"/name";
+        Student student =restTemplate.getForObject(URI,Student.class);
+        return student;
+    }
+
+
     public List<Student> getAllStudent() {
         String URI = "http://"+environment.getProperty("ip.address")+":8080/api/v1/students";
         ResponseEntity<List<Student>> responseEntity = restTemplate.exchange(
@@ -75,10 +82,11 @@ public class StudentService {
         String response = responseEntity.getBody();
         return response;
     }
-    public String deleteStudent(String name) {
-        String apiUrl = "http://"+environment.getProperty("ip.address")+":8080/api/v1/students/"+name;
-       userDAO.delete(userDAO.findById(name)
+    public String deleteStudent(String id) {
+        String apiUrl = "http://"+environment.getProperty("ip.address")+":8080/api/v1/students/id/"+id;
+       userDAO.delete(userDAO.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Student not found")));
+       userDAO.deleteById((id));
         return restTemplate.exchange(
                 apiUrl,
                 org.springframework.http.HttpMethod.DELETE,
@@ -94,7 +102,7 @@ public class StudentService {
     }
 
     public String createTask(String studentId, String stageId, taskDTO taskDto) {
-        String apiUrl = "http://"+environment.getProperty("ip.address")+":8080/api/v1/students/"+studentId+"/stages/+"+stageId+"/tasks";
+        String apiUrl = "http://"+environment.getProperty("ip.address")+":8080/api/v1/students/"+studentId+"/stages/"+stageId+"/tasks";
         String response = restTemplate.postForObject(apiUrl, taskDto ,String.class);
         return response;
     }

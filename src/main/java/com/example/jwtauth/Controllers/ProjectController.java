@@ -25,7 +25,7 @@ public class    ProjectController {
 
     @Operation(summary = "Get All Projects ")
     @GetMapping()
-    @PreAuthorize("hasRole('Supervisor')")
+    @PreAuthorize("hasRole('Supervisor') OR hasRole('Student')")
     public List<Project> getProjects(){return projectService.getAllProjects();}
 
     @Operation(summary = "Get Project By Id")
@@ -40,7 +40,7 @@ public class    ProjectController {
     public List<Stage> getStagesProject(@PathVariable String projectId){return projectService.getStageByProject(projectId);}
 
     @Operation(summary = "Get Stages by Stage Id")
-    @GetMapping(value ="/stages/{stagesId}")
+    @GetMapping(value ="/stages/{stageId}")
     @PreAuthorize("hasRole('Supervisor') OR hasRole('Student')")
     public Stage getStage(@PathVariable String stageId){return projectService.getStage(stageId);}
 
@@ -82,7 +82,6 @@ public class    ProjectController {
     @PreAuthorize("hasRole('Supervisor') OR hasRole('Student')")
     public InputStream downloadDoc(@PathVariable String projectId) throws IOException {return projectService.downloadDoc(projectId);}
 
-//
     @Operation(summary = "Delete Stage")
     @DeleteMapping (value = "/stages/{stageId}")
     @PreAuthorize("hasRole('Student')")
@@ -104,6 +103,12 @@ public class    ProjectController {
     @PutMapping(value ="/{projectId}/tasks/{taskId}")
     @PreAuthorize("hasRole('Student')")
     public String updateTaskState(@PathVariable String projectId,@PathVariable String taskId){return projectService.updateTask(projectId,taskId);}
+
+
+    @Operation(summary = "Validate document")
+    @PutMapping(value ="/document/{projectId}")
+    @PreAuthorize("hasRole('Supervisor')")
+    public String validateDocument(@PathVariable String projectId){return projectService.validateDocument(projectId);}
 
 
     // Delete a project

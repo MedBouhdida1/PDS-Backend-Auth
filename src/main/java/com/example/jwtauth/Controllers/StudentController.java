@@ -23,16 +23,20 @@ public class StudentController {
     @PreAuthorize("hasRole('Student')")
     public Student getStudent(@PathVariable String studentId){return studentService.getStudent(studentId);}
 
+    @Operation(summary = "Get Student By name")
+    @GetMapping(value ="/{name}/name")
+    @PreAuthorize("hasRole('Student')")
+    public Student getStudentByName(@PathVariable String name){return studentService.getStudentByName(name);}
 
     @Operation(summary = "Get All Students")
     @GetMapping
     @PreAuthorize("hasRole('Admin')")
     public List<Student> listStudents(){return studentService.getAllStudent();}
 
-    @Operation(summary = "Delete a student By Name")
-    @DeleteMapping(value ="/{name}")
+    @Operation(summary = "Delete a student By Id")
+    @DeleteMapping(value ="{id}")
     @PreAuthorize("hasRole('Student') OR hasRole('Admin')")
-    public String removeStudent(@PathVariable String name){return studentService.deleteStudent(name);}
+    public String removeStudent(@PathVariable String id){return studentService.deleteStudent(id);}
 
     @Operation(summary = "Update Student")
     @PutMapping(value = "/{studentId}")

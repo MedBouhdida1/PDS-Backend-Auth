@@ -1,6 +1,7 @@
 package com.example.jwtauth.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class Stage {
     private List<Comment> comments;
 
 
-    @JsonIgnore
+    @JsonIgnoreProperties("stages")
     private Project project;
 
     public Stage(String name) {

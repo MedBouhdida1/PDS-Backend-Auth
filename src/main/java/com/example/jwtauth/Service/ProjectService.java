@@ -124,27 +124,37 @@ public class ProjectService {
     }
 
 
-    public String uploadDoc(String projectId,MultipartFile pdf) throws IOException {
-        String apiUrl = "http://localhost:8080/api/v1/projects/"+projectId+"/document";
+
+
+    public String uploadDoc(String projectId, MultipartFile pdf) throws IOException {
+        System.out.println("Received request for projectId: " + projectId);
+        System.out.println("Received file with original name: " + pdf.getOriginalFilename());
+
+        String apiUrl = "http://localhost:8080/api/v1/projects/" + projectId + "/document";
+
         // Set up headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         // Set up the request body as a MultiValueMap
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("pdf", new HttpEntity<>(pdf.getBytes(), headers));
+        body.add("pdf", pdf.getResource());
 
         // Create the request entity with headers and body
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         // Make the POST request
-        String response = restTemplate.postForEntity(apiUrl, requestEntity, String.class).getBody();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
+
+        // Retrieve the response body
+        String response = responseEntity.getBody();
 
         return response;
     }
 
+
     public InputStream downloadDoc(String projectId) {
-        String apiUrl = "http://localhost:8080/api/v1/project/"+projectId+"/document";
+        String apiUrl = "http://localhost:8080/api/v1/projects/"+projectId+"/document";
         // Set up headers
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 
@@ -195,6 +205,21 @@ public class ProjectService {
 
     public String updateTask(String projectId, String taskId) {
         String apiUrl = "http://localhost:8080/api/v1/projects/"+projectId+"/tasks/"+taskId;
+        // Make the PUT request with exchange
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.PUT,
+                null,
+                String.class
+        );
+
+        // Extract the response body from the ResponseEntity
+        String response = responseEntity.getBody();
+        return response;
+    }
+
+    public String validateDocument(String projectId) {
+        String apiUrl = "http://localhost:8080/api/v1/projects/document/"+projectId;
         // Make the PUT request with exchange
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 apiUrl,

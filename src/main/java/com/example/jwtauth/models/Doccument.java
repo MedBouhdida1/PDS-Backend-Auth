@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Doccument {
     @Id
     private String Id;
-
+    private String status="pending";
     private String title;
     private Binary doc;
 

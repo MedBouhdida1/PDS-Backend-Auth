@@ -69,9 +69,9 @@ public class SupervisorService {
         return response;
     }
 
-    public String deleteSupervisor(String name) {
-        String apiUrl = "http://"+environment.getProperty("ip.address")+":8080/api/v1/supervisors/"+name;
-        userDAO.delete(userDAO.findById(name)
+    public String deleteSupervisor(String id) {
+        String apiUrl = "http://"+environment.getProperty("ip.address")+":8080/api/v1/supervisors/id/"+id;
+        userDAO.delete(userDAO.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Supervisor not found")));
         return restTemplate.exchange(
                 apiUrl,
