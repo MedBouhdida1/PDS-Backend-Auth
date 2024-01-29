@@ -105,6 +105,12 @@ public class    ProjectController {
     public String updateTaskState(@PathVariable String projectId,@PathVariable String taskId){return projectService.updateTask(projectId,taskId);}
 
 
+    @Operation(summary = "Update task state")
+    @PutMapping(value ="/{projectId}/tasks/{taskId}/pending")
+    @PreAuthorize("hasRole('Student')")
+    public String setTasPending(@PathVariable String projectId,@PathVariable String taskId){return projectService.settaskPending(projectId,taskId);}
+
+
     @Operation(summary = "Validate document")
     @PutMapping(value ="/document/{projectId}")
     @PreAuthorize("hasRole('Supervisor')")

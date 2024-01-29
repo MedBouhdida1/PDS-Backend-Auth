@@ -218,6 +218,21 @@ public class ProjectService {
         return response;
     }
 
+    public String settaskPending(String projectId, String taskId) {
+        String apiUrl = "http://localhost:8080/api/v1/projects/"+projectId+"/tasks/"+taskId+"/pending";
+        // Make the PUT request with exchange
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.PUT,
+                null,
+                String.class
+        );
+
+        // Extract the response body from the ResponseEntity
+        String response = responseEntity.getBody();
+        return response;
+    }
+
     public String validateDocument(String projectId) {
         String apiUrl = "http://localhost:8080/api/v1/projects/document/"+projectId;
         // Make the PUT request with exchange
